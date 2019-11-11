@@ -16,15 +16,16 @@ def _calculate_time(events):
 if __name__ == '__main__':
 
   teams = settings.TEAMS
-  id_to_block = settings.ID_TO_BLOCK
+  ids_to_block = settings.ID_TO_BLOCKS
+  timezone = settings.TIMEZONE
   
   block = Block()  
 
-  events = Events()
-  events.update(teams)
+  events = Events(teams, timezone)
+  events.update()
   
-  print(str(events.get_events_size()) + " matches.")
-  for event in events.get_events_today():
+  print(str(events.size()) + " matches.")
+  for event in events.today():
     print(str(event.event_id) + " | " + event.time + " | " + event.league + " | " + "".join(event.teams))
 
   # schedule
@@ -32,9 +33,9 @@ if __name__ == '__main__':
   #   time_to = _calculate_time(events.events_today)
 
   # schedule em time_to.block
-  #   block.block(id_to_block)
+  #   block.block(ids_to_block)
 
   # schedule em time_to.unblock
-  #   block.unblock(id_do_block)
+  #   block.unblock(ids_do_block)
 
 

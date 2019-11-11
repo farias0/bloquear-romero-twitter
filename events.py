@@ -6,34 +6,73 @@ from api_football_credentials import API_FOOTBALL_KEY
  
 class _Event:
   def __init__(self, event_id, time, league, teams):
-    self.event_id = event_id
-    self.time = time
-    self.league = league
-    self.teams = teams
+    self.__event_id = event_id
+    self.__time = time
+    self.__league = league
+    self.__teams = teams
+  
+  @property
+  def event_id(self):
+    return self.__event_id
+  
+  # @event_id.setter
+  # def event_id(self, event_id):
+  #   self.__event_id = event_id
+  
+  @property
+  def time(self):
+    return self.__time
+  
+  # @time.setter
+  # def time(self, time):
+  #   self.__time = time
+  
+  @property
+  def league(self):
+    return self.__league
+  
+  # @league.setter
+  # def league(self, league):
+  #   self.__league = league
+
+  @property
+  def teams(self):
+    return self.__teams
+  
+  # @teams.setter
+  # def teams(self, teams):
+  #   self.__teams = teams
 
 class Events:
-  def __init__(self):
-    self.__url = "https://api-football-v1.p.rapidapi.com/v2/"
+  def __init__(self, teams, timezone):
+    self.__teams = teams
+    self.__timezone = timezone
 
-    # TODO modularize timezone??
-    self.__timezone = "America/Sao_Paulo"
+    self.__url = "https://api-football-v1.p.rapidapi.com/v2/"
 
     self.__api_football_key = API_FOOTBALL_KEY
     
     self.__events_today = []
     self.__last_updated = None
 
-  def get_events_today(self):
+  @property
+  def today(self):
     return self.__events_today
   
-  def get_last_updated(self):
+  @property
+  def last_updated(self):
     return self.__last_updated
 
-  def get_events_size(self):
+  @property
+  def teams(self):
+    return self.__teams
+
+  @property
+  def size(self):
     return len(self.__events_today)
 
   # rebuilds events_today based on the current date
-  def update(self, teams):
+  def update(self):
     today = date.today().strftime("%Y-%m-%d")
 
     print("\nUpdating for " + today + "...")
@@ -57,13 +96,13 @@ class Events:
       return
 
     for event in parsed_response["api"]["fixtures"]:
-      if (event["homeTeam"]["team_id"] in teams or \
-        event["awayTeam"]["team_id"] in teams):
+      if (event["homeTeam"]["team_id"] in self.__teams or \
+        event["awayTeam"]["team_id"] in self.__teams):
 
         event_teams = []
-        if (event["homeTeam"]["team_id"] in teams):
+        if (event["homeTeam"]["team_id"] in __teams):
           event_teams.append(event["homeTeam"]["team_name"])
-        if (event["awayTeam"]["team_id"] in teams):
+        if (event["awayTeam"]["team_id"] in __teams):
           event_teams.append(event["awayTeam"]["team_name"])
 
         event_time = event["event_date"] # TODO build substring
