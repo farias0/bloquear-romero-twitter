@@ -1,0 +1,1 @@
+Bot pra bloquar o Romero no Twitter quando tiver rolando jogo.
