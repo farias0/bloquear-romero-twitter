@@ -3,7 +3,7 @@ import schedule
 # TODO requirements.txt
 
 from events import Events
-from block import Block
+from mute import Mute
 import settings
 
 def _calculate_time(events):
@@ -15,18 +15,22 @@ def _calculate_time(events):
 
 if __name__ == '__main__':
 
-  teams = settings.TEAMS
-  ids_to_block = settings.ID_TO_BLOCKS
-  timezone = settings.TIMEZONE
+  # teams = settings.TEAMS
+  ids_to_mute = settings.USERS_IDS
+  # timezone = settings.TIMEZONE
   
-  block = Block()  
+  mute = Mute(ids_to_mute)
+  print(mute.was_muted)
+  mute.unmute()  
+  print(mute.me)
 
-  events = Events(teams, timezone)
-  events.update()
+
+  # events = Events(teams, timezone)
+  # events.update()
   
-  print(str(events.size()) + " matches.")
-  for event in events.today():
-    print(str(event.event_id) + " | " + event.time + " | " + event.league + " | " + "".join(event.teams))
+  # print(str(events.size()) + " matches.")
+  # for event in events.today():
+  #   print(str(event.event_id) + " | " + event.time + " | " + event.league + " | " + "".join(event.teams))
 
   # schedule
   #   events.update(teams)

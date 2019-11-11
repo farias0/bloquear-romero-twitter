@@ -44,7 +44,7 @@ class _Event:
   #   self.__teams = teams
 
 class Events:
-  def __init__(self, teams, timezone):
+  def __init__(self, teams, timezone="America/Sao_Paulo"):
     self.__teams = teams
     self.__timezone = timezone
 
@@ -66,6 +66,18 @@ class Events:
   @property
   def teams(self):
     return self.__teams
+
+  @teams.setter
+  def teams(self, teams):
+    self.__teams = teams
+  
+  @property
+  def timezone(self):
+    return self.__timezone
+  
+  @timezone.setter
+  def timezone(self, timezone):
+    self.__timezone = timezone
 
   @property
   def size(self):
